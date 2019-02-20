@@ -1,8 +1,10 @@
 ---
 layout: page
-title: My website
-description: Minimal website with GitHub Pages
+title: simple site
+tagline: Easy websites with GitHub Pages
+description: Minimal tutorial on making a simple website with GitHub Pages
 ---
+
 [Github Pages](https://pages.github.com) provide a simple way to make a
 website using
 [Markdown](https://daringfireball.net/projects/markdown/) and
@@ -68,4 +70,3 @@ Also see my [tutorials](https://kbroman.org/pages/tutorials) on
 [R packages](https://kbroman.org/pkg_primer),
 [data organization](https://kbroman.org/dataorg),
 and [reproducible research](https://kbroman.org/steps2rr).
-
