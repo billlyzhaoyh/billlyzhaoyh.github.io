@@ -11,6 +11,7 @@ interests both in academic realm and beyond.
 [curriculum vitae ![CV as pdf](icons16/pdf-icon.png)]({{ BASE_PATH }}/assets/billy_cv.pdf)<br/>
 [github](https://github.com/billlyzhaoyh)<br/>
 [blog](https://tripodprojectblog.wordpress.com)
+[FB Page](https://www.facebook.com/ASFoKP)
 
 ---
 
