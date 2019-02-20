@@ -1,8 +1,7 @@
 ---
 layout: frontpage
-title: Karl Broman
-description: Karl Broman is Professor in Biostatistics and Medical Informatics at University of Wisconsin - Madison; research in statistical genetics
-keywords: Broman, QTL, R/qtl, quantitative trait loci, statistics, statistical genetics, recombination
+title: Yanhong Zhao
+description: Yanhong Zhao is a final year engineering student at University of Cambridge where he is pursuing a M.Eng degree in Information and Computer Egnineering with focus on Machine Learning and Deep Learning. He has a wide range of interests both in academic realm and beyond.
 ---
 
 <div class="navbar">
