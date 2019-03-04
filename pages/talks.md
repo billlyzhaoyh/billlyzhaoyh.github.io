@@ -1,6 +1,6 @@
 ---
 layout: page
-title: What I am doing now
+title: Now
 description: Yanhong Zhao's current doings
 ---
 
