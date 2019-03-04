@@ -1,15 +1,14 @@
 ---
 layout: frontpage
-title: Karl Broman
+title: Yanhong Zhao
 ---
 
 <div class="navbar">
   <div class="navbar-inner">
       <ul class="nav">
-          <li><a href="{{ BASE_PATH }}/assets/broman_cv.pdf">cv</a></li>
-          <li><a href="https://github.com/kbroman">github</a></li>
-          <li><a href="https://kbroman.org/blog">blog</a></li>
-          <li><a href="https://twitter.com/kwbroman">@kwbroman</a></li>
+          <li><a href="{{ BASE_PATH }}/assets/billy_cv.pdf">cv</a></li>
+          <li><a href="https://github.com/billlyzhaoyh">github</a></li>
+          <li><a href="https://www.linkedin.com/in/yanhong-billy-zhao-9913ba140/">Linkedin</a></li>
       </ul>
   </div>
 </div>
