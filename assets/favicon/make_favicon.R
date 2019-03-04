@@ -14,7 +14,7 @@ sizes <- paste0(sizes, "x", sizes)
 
 # write smaller versions of images to files
 dir <- tempdir()
-files <- file.path(dir, paste0("lego_", sizes, ".jpg"))
+files <- file.path("../pics/Billy_Zhao.jpg")
 img_resize <- lapply(sizes, image_resize, image=img_crop)
 for(i in seq_along(files)) {
     image_write(img_resize[[i]], files[[i]])
