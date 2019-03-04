@@ -7,20 +7,25 @@ description: Yanhong Zhao's current doings
 ###  Multi-tasking to the extreme
 
 Master's Project: 
-Building a multivariate predictive model to help find windier windfarms in Southeast Asia
+Building a multivariate predictive model to help find windier windfarms in Southeast Asia (till end of May)
 
-Active projects:
-Computer vision to identify food ingredients and approximate their quantities (think carrots, oinions and garlic)
+Active Machine Learning projects:
+
+(1)Computer vision to identify food ingredients and approximate their quantities (think carrots, oinions and garlic)
+
+(2)Implementation of state-of-the-art deep learning algorithms on the Physionet phonocardiogram dataset and comparative study of their performance on key features
+
+(3)Implementation of Trueskill (Gibbs Sampling and Message Passing) for NCAA Men's Tournament Data on Kaggle
 
 Active online courses:
-NLP sequence models on Coursera
+Course 1&2 for Deep Learning Specialisation on Coursera
 
 Engineering for Social Good Group:
-Organising Meet-ups every Monday 5-7 at LT6 in Engineering Department
-Organising Open Data Day for Sustainable Development on 3rd March currently receiving team applications and looking for mentors and speakers
+Organising Meet-ups for one more Monday 5-7 at LT6 in Engineering Department
+
 
 ---
-Updated Feb 20th, 2019, from Cambridge, United Kingdom.
+Updated Mar 4th, 2019, from Cambridge, United Kingdom.
 
 <!--
 Template for future use

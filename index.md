@@ -8,8 +8,7 @@ Yanhong Zhao is a final year engineering student at the University of Cambridge 
 in Information and Computer Egnineering with focus on Machine Learning and Deep Learning. He has a wide range of 
 interests both in the academic realm and beyond.
 
-[CV![CV as pdf](icons16/pdf-icon.png)]({{ BASE_PATH }}/assets/billy_cv.pdf)<br/>
-[LinkedIn](linkedin.com/in/yanhong-zhao-9913ba140/)<br/>
+[CV]({{ BASE_PATH }}/assets/billy_cv.pdf)<br/>
 [Github Repositry](https://github.com/billlyzhaoyh)<br/>
 [Shared Blog](https://tripodprojectblog.wordpress.com)<br/>
 [Facebook Page](https://www.facebook.com/ASFoKP)<br/>
