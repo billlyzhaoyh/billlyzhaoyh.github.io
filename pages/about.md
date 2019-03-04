@@ -21,8 +21,7 @@ interests both in the academic realm and beyond.
 
     <div class="row-fluid">
         <div class="span5">
-            Yanhong (Billy) Zhao<br/>
-            <a href="https://www.linkedin.com/in/yanhong-billy-zhao-9913ba140/">My Linkedin Profile</a><br/>
+            You can find me on <a href="https://www.linkedin.com/in/yanhong-billy-zhao-9913ba140/">Linkedin</a>
             Please email me at <a href="mailto:billyzhaoyh@gmail.com">billyzhaoyh@gmail.com</a>
         </div>
         <div class="span2">
