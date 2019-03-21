@@ -27,7 +27,7 @@ Fast.ai practical deep learning for coders
 
 
 ---
-Updated Mar 21st, 2019, from Zagred, Croatia.
+Updated Mar 21st, 2019, from Zagreb, Croatia.
 
 <!--
 Template for future use
