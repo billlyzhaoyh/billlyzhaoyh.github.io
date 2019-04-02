@@ -1,8 +1,9 @@
 ---
 layout: page
-title: publications
-description: Karl Broman's publications
+title: Ongoing and Past Projects
+description: Yanhong's projects
 ---
+Ongoing Projects
 
 <div class="navbar">
     <div class="navbar-inner">
