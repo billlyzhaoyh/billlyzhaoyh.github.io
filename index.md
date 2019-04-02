@@ -10,7 +10,6 @@ interests both in the academic realm and beyond.
 
 [CV]({{ BASE_PATH }}/assets/billy_cv.pdf)<br/>
 [Github Repositry](https://github.com/billlyzhaoyh)<br/>
-[Shared Blog](https://tripodprojectblog.wordpress.com)<br/>
 [Facebook Page](https://www.facebook.com/ASFoKP)<br/>
 
 ---
