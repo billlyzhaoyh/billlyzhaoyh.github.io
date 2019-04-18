@@ -16,3 +16,6 @@ title: Interests and Hobbies
         </ul>
     </div>
 </div>
+
+### <a name="Travel"></a>Travel
+Currently I am planning to visit Kos and Kalymnos, two beautiful islands in Greece very soon! 

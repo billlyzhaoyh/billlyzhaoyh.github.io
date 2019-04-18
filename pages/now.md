@@ -4,10 +4,9 @@ title: What I'm doing now
 description: Yanhong Zhao's current doings
 ---
 
-###  Study trip in Croatia
+###  Back in London 
 
-I am on a study trip in Croatia for a month and yes you heard it right, a study trip. I am living in this amazing, IKEA-furnished airbnb for a month in Zagreb and will do some sightseeing alongside of checking out all the cafes in town looking for plugs. 
-
+Fresh back from Zagreb. I had sampled all the cafes there and I thought it was time to come back to London to sample some cafes here. I bought a new pair of climbing shoes (finally committed) so I am really excited about checking out some sick London gyms soon!
 
 ###  Multi-tasking to the extreme
 
@@ -20,14 +19,11 @@ Active Machine Learning projects:
 
 (2)Implementation of state-of-the-art deep learning algorithms on the Physionet phonocardiogram dataset and comparative study of their performance on key features
 
-Active online courses:
-Course 1&2 for Deep Learning Specialisation on Coursera
-Fast.ai practical deep learning for coders
 
 
 
 ---
-Updated Mar 21st, 2019, from Zagreb, Croatia.
+Updated Apr 18th, 2019, from London, UK.
 
 <!--
 Template for future use
