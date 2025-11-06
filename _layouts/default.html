@@ -7,6 +7,7 @@
 
 {% seo %}
     <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
+    <link rel="stylesheet" href="{{ "/assets/css/custom.css" | relative_url }}">
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
@@ -83,9 +84,18 @@
         </div>
       </header>
       <section>
-
-      {{ content }}
-
+      {% if page.url == '/' or page.url == '/index.html' %}
+        <div class="profile-container">
+          <div class="profile-content-column">
+            {{ content }}
+          </div>
+          <div class="profile-image-column">
+            <img src="/assets/images/profile.jpeg" alt="Profile" class="profile-image" />
+          </div>
+        </div>
+      {% else %}
+        {{ content }}
+      {% endif %}
       </section>
     </div>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>

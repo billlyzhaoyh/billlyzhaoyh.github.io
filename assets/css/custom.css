@@ -1,0 +1,35 @@
+/* Custom styles for the site */
+
+.profile-container {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.profile-image-column {
+  flex-shrink: 0;
+}
+
+.profile-image {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.profile-content-column {
+  flex: 1;
+}
+
+@media screen and (max-width: 720px) {
+  .profile-container {
+    flex-direction: column;
+  }
+  
+  .profile-image {
+    width: 150px;
+    margin: 0 auto;
+  }
+}
+
