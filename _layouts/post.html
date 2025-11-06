@@ -1,0 +1,131 @@
+---
+layout: default
+---
+
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <p class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
+      {% if page.author %} • <span>{{ page.author }}</span>{% endif %}
+    </p>
+    {% if page.tags %}
+    <div class="post-tags">
+      {% for tag in page.tags %}
+        <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% if page.tags %}
+  <footer class="post-footer">
+    <p><strong>Topics:</strong> {{ page.tags | join: ", " }}</p>
+  </footer>
+  {% endif %}
+</article>
+
+<style>
+  .post {
+    clear: both;
+    overflow: hidden;
+  }
+
+  .post-header {
+    margin-bottom: 1.5em !important;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 1.5em !important;
+    clear: both !important;
+    display: block !important;
+    width: 100% !important;
+    overflow: visible !important;
+    position: relative !important;
+  }
+
+  .post-header::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  .post-title {
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+  }
+
+  .post-meta {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 1em;
+  }
+
+  .post-tags {
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    clear: both;
+    display: block;
+    width: 100%;
+  }
+
+  .post-tags::after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+  }
+
+  .tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 4px 12px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: #333;
+  }
+
+  .post-content {
+    line-height: 1.6 !important;
+    margin-top: 1em !important;
+    margin-bottom: 2em !important;
+    clear: both !important;
+    display: block !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    position: relative !important;
+  }
+
+  .post-content h2 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    clear: both;
+  }
+
+  .post-content h3 {
+    margin-top: 1.2em;
+    margin-bottom: 0.4em;
+    clear: both;
+  }
+
+  .post-content p,
+  .post-content ul,
+  .post-content ol,
+  .post-content pre {
+    clear: both;
+  }
+
+  .post-footer {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid #e8e8e8;
+    color: #666;
+    font-size: 0.9em;
+    clear: both;
+  }
+</style>

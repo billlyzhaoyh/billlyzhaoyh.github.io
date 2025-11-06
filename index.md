@@ -2,20 +2,20 @@
 layout: default
 ---
 
-# Welcome
+# About Me
 
-This is my personal website built with Jekyll and the Minimal theme.
+Add information about yourself here.
 
-## About Me
+## Background
 
-Add your introduction here.
+Your background and experience.
 
-## Projects
+## Skills
 
-- Project 1
-- Project 2
-- Project 3
+- Skill 1
+- Skill 2
+- Skill 3
 
-## Contact
+## Education
 
-You can reach me at [your-email@example.com](mailto:your-email@example.com)
+Your educational background.
