@@ -101,6 +101,14 @@ layout: default
     position: relative !important;
   }
 
+  .post-content::after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+  }
+
   .post-content h2 {
     margin-top: 1.5em;
     margin-bottom: 0.5em;
@@ -121,11 +129,22 @@ layout: default
   }
 
   .post-footer {
-    margin-top: 2em;
-    padding-top: 1em;
+    margin-top: 2em !important;
+    padding-top: 1em !important;
     border-top: 1px solid #e8e8e8;
     color: #666;
     font-size: 0.9em;
+    clear: both !important;
+    display: block !important;
+    width: 100% !important;
+    position: relative !important;
+  }
+
+  .post-footer::before {
+    content: "";
+    display: block;
     clear: both;
+    height: 0;
+    visibility: hidden;
   }
 </style>
