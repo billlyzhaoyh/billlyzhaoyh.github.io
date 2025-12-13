@@ -5,8 +5,8 @@ tags: [CI/CD, Claude Code, GitHub Actions, Human Layer, AI Automation]
 excerpt: "Human Layer https://www.humanlayer.dev/ is a YC startup working on creating a better workflow for agentic tooling, and I have developed a Claude Code plugin with GitHub workflow scripts that let you build a similar workflow to Human Layer."
 ---
 
-**TL;DR**: I made a working clone of https://github.com/humanlayer/humanlayer at  
-https://github.com/billlyzhaoyh/humanlayer-clone, where you can install it as a Claude Code plugin and use all the commands described by Dex.
+**TL;DR**: I made a working clone of [https://github.com/humanlayer/humanlayer] at  
+[https://github.com/billlyzhaoyh/humanlayer-clone], where you can install it as a Claude Code plugin and use all the commands described by Dex.
 
 ---
 
