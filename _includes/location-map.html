@@ -1,0 +1,76 @@
+<div id="location-map" style="height: 400px; width: 100%; border-radius: 8px; margin-bottom: 2rem;"></div>
+
+<script>
+(function() {
+  var map = L.map('location-map').setView([{{ include.center_lat | default: 51.5074 }}, {{ include.center_lng | default: -0.1278 }}], {{ include.zoom | default: 12 }});
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
+  }).addTo(map);
+
+  // Helper to render coffee rating
+  function coffeeRating(n) {
+    var filled = '<span style="opacity:1">&#9749;</span>';
+    var empty = '<span style="opacity:0.3">&#9749;</span>';
+    var html = '';
+    for (var i = 0; i < 5; i++) {
+      html += (i < n) ? filled : empty;
+    }
+    return html;
+  }
+
+  // Helper to render wifi rating
+  function wifiRating(n) {
+    var bars = ['&#9601;', '&#9603;', '&#9605;', '&#9607;', '&#9608;'];
+    var html = '';
+    for (var i = 0; i < 5; i++) {
+      var opacity = (i < n) ? '1' : '0.3';
+      html += '<span style="opacity:' + opacity + '">' + bars[i] + '</span>';
+    }
+    return html;
+  }
+
+  // Helper to render socket availability
+  function socketIcon(available) {
+    if (available) {
+      return '<span style="color:#22c55e">&#128268; Yes</span>';
+    }
+    return '<span style="opacity:0.5">&#128268; No</span>';
+  }
+
+  var locations = [
+    {% for loc in include.locations %}
+    {
+      name: {{ loc.name | jsonify }},
+      lat: {{ loc.lat }},
+      lng: {{ loc.lng }},
+      coffee: {{ loc.coffee }},
+      wifi: {{ loc.wifi }},
+      sockets: {{ loc.sockets }},
+      notes: {{ loc.notes | jsonify }},
+      google_maps: {{ loc.google_maps | jsonify }},
+      id: "cafe-{{ forloop.index }}"
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+
+  locations.forEach(function(loc) {
+    var popupContent = '<div style="min-width:200px">' +
+      '<strong style="font-size:1.1em">' + loc.name + '</strong><br>' +
+      '<div style="margin:8px 0">' +
+        '<div>Coffee: ' + coffeeRating(loc.coffee) + '</div>' +
+        '<div>WiFi: ' + wifiRating(loc.wifi) + '</div>' +
+        '<div>Sockets: ' + socketIcon(loc.sockets) + '</div>' +
+      '</div>' +
+      '<p style="margin:8px 0;font-size:0.9em;color:#666">' + loc.notes + '</p>' +
+      '<a href="' + loc.google_maps + '" target="_blank" style="color:#267CB9">Get directions &rarr;</a>' +
+      '</div>';
+
+    L.marker([loc.lat, loc.lng])
+      .addTo(map)
+      .bindPopup(popupContent);
+  });
+})();
+</script>

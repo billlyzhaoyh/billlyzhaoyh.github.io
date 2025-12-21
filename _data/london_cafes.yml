@@ -1,0 +1,23 @@
+# Laptop-friendly cafes in London
+# Add your cafes here with the following fields:
+#   name: Cafe name
+#   area: west/central/east/north/south
+#   lat/lng: Coordinates for map marker
+#   coffee: 1-5 rating
+#   wifi: 1-5 rating
+#   sockets: true/false
+#   notes: Your review/notes
+#   google_maps: Google Maps link for directions
+#   date_added: YYYY-MM-DD (for "recently added" section)
+#   favourite: true (optional, for "personal favourites" section)
+
+- name: "Another Brother (Glenthorne Road branch)"
+  area: west
+  lat: 51.4945
+  lng: -0.2341
+  coffee: 5
+  wifi: 5
+  sockets: false
+  notes: "Perfect little spot for a quick coffee and some brunch food. It gets a bit steamy in winter and busy on the weekends (a local's favourite spot) but solid choice to get some work done"
+  google_maps: "https://maps.app.goo.gl/m8zJbzuZhgKjjxDb8"
+  date_added: 2025-12-21
