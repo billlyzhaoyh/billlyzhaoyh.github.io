@@ -21,3 +21,14 @@
   notes: "Perfect little spot for a quick coffee and some brunch food. It gets a bit steamy in winter and busy on the weekends (a local's favourite spot), but a solid choice to get some work done."
   google_maps: "https://maps.app.goo.gl/m8zJbzuZhgKjjxDb8"
   date_added: 2025-12-21
+
+- name: "GAIL's Bakery (Barons Court)"
+  area: west
+  lat: 51.4902
+  lng: -0.2134
+  coffee: 4
+  wifi: 3
+  sockets: true
+  notes: "It is Gails so you know what you are getting pastry wise. This one does have an upstairs area which is quieter with socket access. One good thing about this is that if you are looking for a productive late evening spot they do close at 6:30pm even on a Sunday!"
+  google_maps: "https://maps.app.goo.gl/tRjV9FoFEqGL8ybp9"
+  date_added: 2025-12-22
