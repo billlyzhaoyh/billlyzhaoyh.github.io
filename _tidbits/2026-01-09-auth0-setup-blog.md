@@ -1,5 +1,5 @@
 ---
-title: "PEP 810 in Python 3.15 brings lazy import functionality"
+title: "How to Configure Auth0 for MCP Servers with ChatGPT"
 date: 2026-01-09
 tags: [Python, Tips, OAuth, MCP, ChatGPT]
 excerpt: "Setup Auth0 for MCP Servers with ChatGPT"
