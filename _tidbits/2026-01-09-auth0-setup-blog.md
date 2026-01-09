@@ -1,3 +1,9 @@
+---
+title: "PEP 810 in Python 3.15 brings lazy import functionality"
+date: 2026-01-09
+tags: [Python, Tips, OAuth, MCP, ChatGPT]
+excerpt: "Setup Auth0 for MCP Servers with ChatGPT"
+---
 # How to Configure Auth0 for MCP Servers with ChatGPT
 
 Getting OAuth authentication working between Auth0 and ChatGPT's MCP (Model Context Protocol) connectors can be tricky. After hours of debugging `OAUTH_SCOPES_MISMATCH` errors, here's the complete guide to making it work.
