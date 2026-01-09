@@ -4,7 +4,7 @@ title: "Laptop-Friendly Cafes in London"
 description: "My personal collection of cafes perfect for remote work in London"
 data_file: london_cafes
 map_center: [51.508, -0.17]
-map_zoom: 12
+map_zoom: 11
 ---
 
 # Laptop-Friendly Cafes in London
