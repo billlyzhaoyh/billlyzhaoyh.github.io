@@ -29,6 +29,28 @@
   coffee: 4
   wifi: 3
   sockets: true
-  notes: "It is Gails so you know what you are getting pastry wise. This one does have an upstairs area which is quieter with socket access. One good thing about this is that if you are looking for a productive late evening spot they do close at 6:30pm even on a Sunday!"
+  notes: "It's GAIL's, so you know what you're getting pastry-wise. This one has an upstairs area which is quieter with socket access. One good thing: if you're looking for a productive evening spot, they close at 6:30pm even on a Sunday!"
   google_maps: "https://maps.app.goo.gl/tRjV9FoFEqGL8ybp9"
   date_added: 2025-12-22
+
+- name: "Another Brother (Canary Wharf)"
+  area: east
+  lat: 51.4977
+  lng: -0.0145
+  coffee: 5
+  wifi: 4
+  sockets: true
+  notes: "On the ground floor of the Ark Canary Wharf hotel, this cafe has high ceilings and a range of seating options. Great coffee and good food as per Another Brother quality, and the building provides super fast WiFi. The vibe is great since there are a ton of people with laptops out, all hustling as well."
+  google_maps: "https://maps.app.goo.gl/DJJHJnTmWxkAC7oW7"
+  date_added: 2025-01-09
+
+- name: "The Ledger Building"
+  area: east
+  lat: 51.5076
+  lng: -0.0245
+  coffee: 2
+  wifi: 5
+  sockets: false
+  notes: "Don't be alarmed – this is a Wetherspoons pub, but the WiFi is great here. Imagine having a cheap pint with a meal, or unlimited coffee or tea in the afternoon. It's not bad at all if you're nearby and struggling to find somewhere reliable. Also, you can order from your table like any other Wetherspoons pub."
+  google_maps: "https://maps.app.goo.gl/h94fTptNfRfV7S6t6"
+  date_added: 2025-01-09
