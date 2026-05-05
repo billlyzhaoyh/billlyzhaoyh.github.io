@@ -31,6 +31,29 @@
         font-weight: 700;
         color: #222;
       }
+
+      .site-footer {
+        margin-top: 1em;
+        padding-top: 1em;
+        border-top: 1px solid #e8e8e8;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+
+      .social-icon {
+        width: 24px;
+        height: 24px;
+        fill: #666;
+        transition: fill 0.2s ease;
+      }
+
+      .social-links a:hover .social-icon {
+        fill: #267CB9;
+      }
     </style>
   </head>
   <body>
@@ -100,33 +123,5 @@
       </section>
     </div>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
-    <style>
-      .navigation {
-        margin: 20px 0;
-      }
-
-      .site-footer {
-        margin-top: 1em;
-        padding-top: 1em;
-        border-top: 1px solid #e8e8e8;
-      }
-
-      .social-links {
-        display: flex;
-        gap: 16px;
-        align-items: center;
-      }
-
-      .social-icon {
-        width: 24px;
-        height: 24px;
-        fill: #666;
-        transition: fill 0.2s ease;
-      }
-
-      .social-links a:hover .social-icon {
-        fill: #267CB9;
-      }
-    </style>
   </body>
 </html>
