@@ -10,6 +10,7 @@
 #   google_maps: Google Maps link for directions
 #   date_added: YYYY-MM-DD (for "recently added" section)
 #   favourite: true (optional, for "personal favourites" section)
+#   avoid: true (optional, for "places to avoid" section — laptops not welcome, etc.)
 
 - name: "Another Brother (Glenthorne Road branch)"
   area: west
@@ -32,6 +33,62 @@
   notes: "It's GAIL's, so you know what you're getting pastry-wise. This one has an upstairs area which is quieter with socket access. One good thing: if you're looking for a productive evening spot, they close at 6:30pm even on a Sunday!"
   google_maps: "https://maps.app.goo.gl/tRjV9FoFEqGL8ybp9"
   date_added: 2025-12-22
+
+- name: "WatchHouse (Marylebone)"
+  area: central
+  lat: 51.5187
+  lng: -0.1503
+  coffee: 5
+  wifi: 4
+  sockets: true
+  notes: "Classic WatchHouse coffee quality with the lovely decor and vibe you'd expect. Sockets are tucked under the desks and a bit tricky to spot. WiFi works but requires filling in a form to connect. One thing to flag: when I went, it was table service only, so you have to wait to be seated — not sure if that was a one-off, but it can feel a bit stressful when it's busy, which it often is given the Marylebone location."
+  google_maps: "https://maps.app.goo.gl/eVbPwYzxtVgzT9Bq7"
+  date_added: 2026-05-04
+
+- name: "WatchHouse (Fetter Lane)"
+  area: central
+  lat: 51.5167
+  lng: -0.1092
+  coffee: 5
+  wifi: 4
+  sockets: false
+  notes: "Tucked near Farringdon, surrounded by offices, so expect office workers piling in for coffee at peak times. Standard WatchHouse WiFi (perfectly fine) and the usual top-tier coffee. Seating is limited and there are no sockets, but if you're really locked in and just need a focused hour or two to prep for something, it does the job."
+  google_maps: "https://maps.app.goo.gl/rsYGHhY32rA7xLxe9"
+  date_added: 2026-05-04
+
+- name: "Bread Lab Artisan Bakery"
+  area: west
+  lat: 51.4872
+  lng: -0.2265
+  coffee: 5
+  wifi: 4
+  sockets: true
+  notes: "They have bakers actually baking on-site, so the place smells incredible the moment you walk in and the bread is genuinely excellent. Plenty of sockets, solid WiFi, great coffee — and I really like the coffee cups too. A proper standout west London spot for a productive session."
+  google_maps: "https://maps.app.goo.gl/xfBtecPcT2smUtZs6"
+  date_added: 2026-05-04
+
+- name: "Redemption Roasters (Angel)"
+  area: north
+  lat: 51.5342
+  lng: -0.1045
+  coffee: 4
+  wifi: 4
+  sockets: true
+  notes: "Spent a lovely afternoon here facing the sunshine. Sockets are available but only at certain seats, so grab one of those if you can. It gets quite busy, but the staff is really friendly and there are plenty of other people on laptops, so the vibe is right for getting work done."
+  google_maps: "https://maps.app.goo.gl/mVUbkp819s5yu58e9"
+  date_added: 2026-05-04
+
+- name: "Frequency Coffee (Angel)"
+  area: north
+  lat: 51.5347
+  lng: -0.1041
+  coffee: 0
+  wifi: 0
+  sockets: false
+  avoid: true
+  notes: "Avoid on weekends if you're planning to work — laptops aren't allowed. I went hoping to settle in and ended up not being able to work, plus couldn't find a table either. Probably fine for a quick weekday coffee, but don't make the trip with your laptop."
+  google_maps: "https://maps.app.goo.gl/4hp2LJt7svq7M9PH7"
+  date_added: 2026-05-04
 
 - name: "Another Brother (Canary Wharf)"
   area: east

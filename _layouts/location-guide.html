@@ -122,6 +122,41 @@ layout: default
   .fav-item:not(:first-child) {
     margin-top: 0.5rem;
   }
+
+  /* Places to avoid */
+  .avoid-section {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e8e8e8;
+  }
+  .avoid-section h2 {
+    color: #b91c1c;
+  }
+  .avoid-card {
+    border: 1px solid #fecaca;
+    border-left: 4px solid #b91c1c;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    background: #fef2f2;
+  }
+  .avoid-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.05rem;
+  }
+  .avoid-card h3 a {
+    color: #b91c1c;
+    text-decoration: none;
+  }
+  .avoid-card h3 a:hover {
+    text-decoration: underline;
+  }
+  .avoid-notes {
+    color: #444;
+    margin: 0.5rem 0 0.75rem 0;
+    line-height: 1.55;
+    font-size: 0.95rem;
+  }
 </style>
 
 {{ content }}
@@ -132,9 +167,11 @@ layout: default
 {% assign center_lng = page.map_center[1] | default: -0.1278 %}
 {% assign map_zoom = page.map_zoom | default: 12 %}
 
-{% assign sorted_by_date = locations | sort: "date_added" | reverse %}
+{% assign visible = locations | where_exp: "loc", "loc.avoid != true" %}
+{% assign avoided = locations | where: "avoid", true %}
+{% assign sorted_by_date = visible | sort: "date_added" | reverse %}
 {% assign recent = sorted_by_date | first %}
-{% assign favourites = locations | where: "favourite", true %}
+{% assign favourites = visible | where: "favourite", true %}
 
 <div class="highlight-sections">
   <div class="highlight-grid">
@@ -171,7 +208,7 @@ layout: default
   </div>
 </div>
 
-{% include location-map.html locations=locations center_lat=center_lat center_lng=center_lng zoom=map_zoom %}
+{% include location-map.html locations=visible center_lat=center_lat center_lng=center_lng zoom=map_zoom %}
 
 <div class="location-list">
   {% assign areas = "central,east,north,south,west" | split: "," %}
@@ -179,7 +216,7 @@ layout: default
 
   {% for area in areas %}
     {% assign area_index = forloop.index0 %}
-    {% assign area_cafes = locations | where: "area", area %}
+    {% assign area_cafes = visible | where: "area", area %}
     {% if area_cafes.size > 0 %}
     <h2>{{ area_names[area_index] }}</h2>
     {% for loc in area_cafes %}
@@ -233,3 +270,17 @@ layout: default
     {% endif %}
   {% endfor %}
 </div>
+
+{% if avoided.size > 0 %}
+<div class="avoid-section">
+  <h2>Places to Avoid</h2>
+  <p>Cafes I've tried that didn't work out for laptop work — keeping them here so I (and you) don't waste another trip.</p>
+  {% for loc in avoided %}
+  <div class="avoid-card">
+    <h3><a href="{{ loc.google_maps }}" target="_blank">{{ loc.name }}</a></h3>
+    <p class="avoid-notes">{{ loc.notes }}</p>
+    <a href="{{ loc.google_maps }}" target="_blank" style="color:#b91c1c;font-size:0.9rem">View on Google Maps &rarr;</a>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
