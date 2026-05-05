@@ -108,18 +108,7 @@
         </div>
       </header>
       <section>
-      {% if page.url == '/' or page.url == '/index.html' %}
-        <div class="profile-container">
-          <div class="profile-content-column">
-            {{ content }}
-          </div>
-          <div class="profile-image-column">
-            <img src="/assets/images/profile.jpeg" alt="Profile" class="profile-image" />
-          </div>
-        </div>
-      {% else %}
         {{ content }}
-      {% endif %}
       </section>
     </div>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
