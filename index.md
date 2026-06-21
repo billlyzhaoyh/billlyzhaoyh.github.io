@@ -6,11 +6,11 @@ layout: default
 
 Hi, I'm Billy — a machine learning engineer based in London, working at the intersection of AI / data science and social good.
 
-I'm currently a Senior Machine Learning Engineer at [Sightline Climate (CTVC)](https://sightlineclimate.com), helping investors, corporates and governments figure out where to put capital to actually move the needle on climate tech.
+I'm currently a Senior Machine Learning Engineer at [Currence.ai](https://currence.ai) (formerly Sightline Climate / CTVC), helping investors, corporates and governments figure out where to put capital to actually move the needle on climate tech.
 
 ## Experience
 
-- **Senior Machine Learning Engineer**, [Sightline Climate (CTVC)](https://sightlineclimate.com) *(current)*
+- **Senior Machine Learning Engineer**, [Currence.ai](https://currence.ai) (formerly Sightline Climate / CTVC) *(current)*
 - **Founding AI Engineer**, [Cocomo](https://cocomo.ai/) — designed autonomous media buying and marketing optimisation driven by first-party data, as part of building out the SaaS platform.
 - **Machine Learning Engineer**, [Trainline](https://www.trainline.com) — worked on the GenAI-powered Travel Assistant product.
 - **Senior Data Scientist**, [EF Education First](https://www.ef.com) — built traditional ML applications across marketing, advertising, sales and operations.

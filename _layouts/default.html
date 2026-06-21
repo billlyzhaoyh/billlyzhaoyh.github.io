@@ -32,6 +32,22 @@
         color: #222;
       }
 
+      .nav-section-title {
+        margin: 20px 0 4px;
+        font-size: 0.7em;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #999;
+      }
+      .navigation a.external-link::after {
+        content: "↗";
+        display: inline-block;
+        margin-left: 6px;
+        font-size: 0.85em;
+        color: #999;
+      }
+
       .site-footer {
         margin-top: 1em;
         padding-top: 1em;
@@ -72,6 +88,9 @@
           <a href="{{ "/tidbits.html" | relative_url }}" {% if page.url == "/tidbits.html" or page.collection == "tidbits" %}class="active"{% endif %}>Tidbits</a>
           <a href="{{ "/hacks.html" | relative_url }}" {% if page.url == "/hacks.html" or page.collection == "hacks" %}class="active"{% endif %}>Hacks</a>
           <a href="{{ "/london-cafes.html" | relative_url }}" {% if page.url == "/london-cafes.html" %}class="active"{% endif %}>London Laptop-friendly Cafes</a>
+
+          <p class="nav-section-title">Projects</p>
+          <a href="https://billlyzhaoyh.github.io/everydaypassion" class="external-link" target="_blank" rel="noopener" title="Opens everydaypassion in a new tab">everydaypassion</a>
         </nav>
 
         <div class="site-footer">
