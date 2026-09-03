@@ -1,0 +1,391 @@
+<style>
+  /* ── Hero flow band (hb-) ────────────────────────────────────────────
+     Full-bleed masthead above .wrapper. Nothing sits on top of it, so
+     there is no contrast constraint and it can use the full palette.
+       · bounded height, so cost never scales with the viewport
+       · 0.6x render scale, upscaled by CSS
+       · full-bleed by cancelling the theme's body padding exactly,
+         rather than 100vw, which would add a scrollbar next to a
+         classic (non-overlay) vertical scrollbar
+       · masked at the bottom so it melts into the white page
+     Rendered only when a page or the site sets hero_flow. */
+
+  /* The theme sets body padding but never resets the UA's default
+     body margin (8px), so -50px alone leaves an 8px gutter. Zeroing the
+     margin here is scoped to pages that opt into the band. */
+  body { margin: 0; }
+
+  .hb-band {
+    position: relative;
+    height: clamp(150px, 24vh, 230px);   /* bounded: not the viewport */
+    margin: -50px -50px 34px;            /* exactly cancels body padding: 50px */
+    overflow: hidden;
+    background: #0b1426;                 /* shows through before first paint */
+    pointer-events: none;                /* purely decorative */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 54%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 54%, rgba(0,0,0,0) 100%);
+  }
+
+  @media print, screen and (max-width: 480px) {
+    .hb-band {
+      margin: -15px -15px 22px;          /* body padding drops to 15px here */
+      height: clamp(120px, 20vh, 170px);
+    }
+  }
+
+  .hb-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* No WebGL2, or a driver that will not compile: a still of the palette */
+  .hb-band.hb-nogl .hb-canvas { display: none; }
+
+  .hb-band.hb-nogl {
+    background:
+      radial-gradient(60% 90% at 26% 30%, rgba(56, 189, 248, 0.28), transparent 70%),
+      radial-gradient(50% 80% at 74% 62%, rgba(38, 124, 185, 0.34), transparent 72%),
+      linear-gradient(150deg, #0b1426 10%, #16294a 55%, #0b1426 100%);
+  }
+
+  @media print {
+    .hb-band { display: none; }
+  }
+</style>
+
+<div class="hb-band" id="hb-band" aria-hidden="true">
+  <canvas class="hb-canvas" id="hb-canvas"></canvas>
+</div>
+
+<script>
+(function () {
+  var band = document.getElementById('hb-band');
+  var canvas = document.getElementById('hb-canvas');
+  if (!band || !canvas) return;
+
+  var gl = canvas.getContext('webgl2', { antialias: false, alpha: false, depth: false });
+  if (!gl) { band.classList.add('hb-nogl'); return; }
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var FLOW = 192;
+  var MAX_DPR = 2;
+  var RENDER_SCALE = 0.6;
+  var DRIFT_AFTER_MS = 2200;
+
+  var VERT = `#version 300 es
+in vec2 a_position;
+out vec2 vUv;
+void main() {
+  vUv = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}
+`;
+
+  var FRAG_FLOW = `#version 300 es
+precision highp float;
+in vec2 vUv;
+uniform sampler2D u_prev;
+uniform vec2  u_mouse;
+uniform vec2  u_mousePrev;
+uniform vec2  u_velocity;
+uniform float u_radius;
+uniform float u_decay;
+uniform float u_aspect;
+out vec4 fragColor;
+
+float segDist(vec2 p, vec2 a, vec2 b) {
+  vec2 pa = p - a, ba = b - a;
+  float h = clamp(dot(pa, ba) / max(dot(ba, ba), 1e-6), 0.0, 1.0);
+  return length(pa - ba * h);
+}
+
+void main() {
+  vec4 prev = texture(u_prev, vUv);
+
+  prev.r = max(0.0, prev.r * u_decay - 0.0015);
+  prev.gb = mix(vec2(0.5), prev.gb, u_decay);
+
+  vec2 p = vec2(vUv.x * u_aspect, vUv.y);
+  vec2 a = vec2(u_mousePrev.x * u_aspect, u_mousePrev.y);
+  vec2 b = vec2(u_mouse.x * u_aspect, u_mouse.y);
+
+  float d = segDist(p, a, b);
+  float influence = exp(-(d * d) / max(u_radius * u_radius * 0.5, 1e-6));
+  influence = max(0.0, influence - 0.01);
+
+  float speed = length(u_velocity);
+  float strength = 0.34 + min(speed * 0.85, 0.80);
+
+  prev.r = min(1.0, max(prev.r, influence * strength));
+
+  vec2 vdir = speed > 1e-5 ? u_velocity / speed : vec2(0.0);
+  prev.gb = mix(prev.gb, clamp(vdir * 0.5 + 0.5, 0.0, 1.0),
+                influence * min(strength, 0.5) * 0.55);
+
+  fragColor = prev;
+}
+`;
+
+  var FRAG_MAIN = `#version 300 es
+precision highp float;
+in vec2 vUv;
+uniform sampler2D u_flowmap;
+uniform float u_time;
+uniform float u_aspect;
+uniform vec2  u_resolution;
+out vec4 fragColor;
+
+float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+
+float noise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+}
+
+float fbm(vec2 p) {
+  float v = 0.0, a = 0.5;
+  for (int i = 0; i < 4; i++) { v += a * noise(p); p *= 2.02; a *= 0.5; }
+  return v;
+}
+
+void main() {
+  vec4 flow = texture(u_flowmap, vUv);
+  float influence = flow.r;
+  vec2  flowDir = (flow.gb - 0.5) * 2.0;
+
+  float t = u_time * 0.05;
+  /* the band is very wide and short, so scale x by aspect to keep the
+     noise features square rather than smeared into stripes */
+  vec2 p = vec2(vUv.x * u_aspect, vUv.y) * 1.5;
+
+  float ang = fbm(p + vec2(t, -t * 0.7)) * 6.28318530718;
+  float warp = 0.20 + influence * 0.80;
+  p += warp * vec2(cos(ang), sin(ang)) * fbm(p * 1.7 - t);
+
+  p += flowDir * influence * 0.55;
+
+  float swirl = 0.20 + influence * 1.05;
+  for (int i = 1; i <= 6; i++) {
+    float fi = float(i);
+    p.x += swirl / fi * cos(t * 1.3 + fi * 1.5 * p.y);
+    p.y += swirl / fi * cos(t * 1.1 + fi * 1.0 * p.x);
+  }
+
+  float f = clamp(fbm(p), 0.0, 1.0);
+
+  vec3 c0 = vec3(0.043, 0.078, 0.149);
+  vec3 c1 = vec3(0.086, 0.161, 0.290);
+  vec3 c2 = vec3(0.149, 0.388, 0.608);
+  vec3 c3 = vec3(0.220, 0.741, 0.973);
+
+  vec3 col = mix(c0, c1, smoothstep(0.05, 0.48, f));
+  col = mix(col, c2, smoothstep(0.38, 0.78, f));
+  col = mix(col, c3, smoothstep(0.72, 1.0, f) * 0.85);
+
+  col += vec3(0.10, 0.34, 0.52) * influence * 1.45;
+
+  /* keep the far left/right edges from looking cut off */
+  float edge = smoothstep(0.0, 0.10, vUv.x) * smoothstep(1.0, 0.90, vUv.x);
+  col *= mix(0.82, 1.0, edge);
+
+  /* Lift the bottom of the band toward light blue before the CSS mask
+     alpha-fades it out. Blending navy straight onto white passes through
+     grey, which reads as mud; routing it through blue stays clean.
+     vUv.y is 0 at the bottom: the framebuffer origin is bottom-left. */
+  float foot = smoothstep(0.46, 0.02, vUv.y);
+  col = mix(col, vec3(0.639, 0.800, 0.941), foot * 0.78);
+
+  col += (hash(vUv * u_resolution + fract(u_time)) - 0.5) * 0.016;
+
+  fragColor = vec4(col, 1.0);
+}
+`;
+
+  function compile(type, src) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    return s;
+  }
+  function program(frag) {
+    var pr = gl.createProgram();
+    gl.attachShader(pr, compile(gl.VERTEX_SHADER, VERT));
+    gl.attachShader(pr, compile(gl.FRAGMENT_SHADER, frag));
+    gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(pr));
+    return pr;
+  }
+
+  var progFlow, progMain;
+  try { progFlow = program(FRAG_FLOW); progMain = program(FRAG_MAIN); }
+  catch (e) { band.classList.add('hb-nogl'); return; }
+
+  var uf = {
+    prev: gl.getUniformLocation(progFlow, 'u_prev'),
+    mouse: gl.getUniformLocation(progFlow, 'u_mouse'),
+    mousePrev: gl.getUniformLocation(progFlow, 'u_mousePrev'),
+    velocity: gl.getUniformLocation(progFlow, 'u_velocity'),
+    radius: gl.getUniformLocation(progFlow, 'u_radius'),
+    decay: gl.getUniformLocation(progFlow, 'u_decay'),
+    aspect: gl.getUniformLocation(progFlow, 'u_aspect')
+  };
+  var um = {
+    flowmap: gl.getUniformLocation(progMain, 'u_flowmap'),
+    time: gl.getUniformLocation(progMain, 'u_time'),
+    aspect: gl.getUniformLocation(progMain, 'u_aspect'),
+    resolution: gl.getUniformLocation(progMain, 'u_resolution')
+  };
+
+  gl.bindVertexArray(gl.createVertexArray());
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(progFlow, 'a_position');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  function makeTarget() {
+    var tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    var seed = new Uint8Array(FLOW * FLOW * 4);
+    for (var i = 0; i < FLOW * FLOW; i++) {
+      seed[i * 4] = 0; seed[i * 4 + 1] = 128; seed[i * 4 + 2] = 128; seed[i * 4 + 3] = 255;
+    }
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, FLOW, FLOW, 0, gl.RGBA, gl.UNSIGNED_BYTE, seed);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    var fbo = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return { tex: tex, fbo: fbo };
+  }
+  var a = makeTarget(), b = makeTarget();
+
+  var vw = 0, vh = 0, aspect = 1;
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR) * RENDER_SCALE;
+    var r = canvas.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return;
+    var w = Math.max(1, Math.round(r.width * dpr));
+    var h = Math.max(1, Math.round(r.height * dpr));
+    if (w === vw && h === vh) return;
+    vw = w; vh = h; canvas.width = w; canvas.height = h;
+    aspect = r.width / Math.max(r.height, 1);
+  }
+
+  /* ── pointer ─────────────────────────────────────────────────────────
+     Tracked window-wide, but a move only counts as *driving* the band
+     when it lands near it. Otherwise the idle drift keeps running, so
+     reading further down the page does not leave the band inert. */
+
+  var mx = 0.35, my = 0.6, px = 0.35, py = 0.6, vx = 0, vy = 0;
+  var lastDrive = -1e9;
+
+  window.addEventListener('pointermove', function (ev) {
+    if (ev.pointerType === 'touch') return;
+    var r = band.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return;
+    var nx = (ev.clientX - r.left) / r.width;
+    var ny = 1.0 - (ev.clientY - r.top) / r.height;
+    if (nx < -0.25 || nx > 1.25 || ny < -0.45 || ny > 1.45) return;  // too far to count
+    mx = nx; my = ny;
+    lastDrive = performance.now();
+  }, { passive: true });
+
+  function drift(tSec) {
+    mx = 0.5 + 0.34 * Math.cos(tSec * 0.29) + 0.09 * Math.sin(tSec * 0.81);
+    my = 0.5 + 0.24 * Math.sin(tSec * 0.23) + 0.07 * Math.cos(tSec * 0.69);
+  }
+
+  /* ── render ────────────────────────────────────────────────────────── */
+
+  var t0 = performance.now(), prevT = t0;
+
+  function frame(now) {
+    var tSec = (now - t0) / 1000;
+    var dt = Math.min((now - prevT) / 1000, 1 / 20);
+    prevT = now;
+
+    if (now - lastDrive > DRIFT_AFTER_MS) drift(tSec);
+
+    vx = (mx - px) / Math.max(dt, 1e-4);
+    vy = (my - py) / Math.max(dt, 1e-4);
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, b.fbo);
+    gl.viewport(0, 0, FLOW, FLOW);
+    gl.useProgram(progFlow);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, a.tex);
+    gl.uniform1i(uf.prev, 0);
+    gl.uniform2f(uf.mouse, mx, my);
+    gl.uniform2f(uf.mousePrev, px, py);
+    gl.uniform2f(uf.velocity, vx, vy);
+    gl.uniform1f(uf.radius, 0.20);
+    gl.uniform1f(uf.decay, Math.pow(0.982, dt * 60));
+    gl.uniform1f(uf.aspect, aspect);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    px = mx; py = my;
+    var tmp = a; a = b; b = tmp;
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.viewport(0, 0, vw, vh);
+    gl.useProgram(progMain);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, a.tex);
+    gl.uniform1i(um.flowmap, 0);
+    gl.uniform1f(um.time, tSec);
+    gl.uniform1f(um.aspect, aspect);
+    gl.uniform2f(um.resolution, vw, vh);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  /* ── when to run ─────────────────────────────────────────────────────
+     No idle timer here: the band lives above the fold, so the
+     IntersectionObserver already stops it the moment you scroll down to
+     read. That keeps it alive while you are actually looking at it. */
+
+  var raf = 0, running = false;
+  var onScreen = false;
+  var tabVisible = document.visibilityState !== 'hidden';
+
+  function loop(now) { raf = requestAnimationFrame(loop); frame(now); }
+
+  function start() {
+    if (running || reduced) return;
+    running = true; prevT = performance.now();
+    raf = requestAnimationFrame(loop);
+  }
+  function stop() {
+    if (!running) return;
+    running = false; cancelAnimationFrame(raf);
+  }
+  function sync() { if (onScreen && tabVisible) start(); else stop(); }
+
+  document.addEventListener('visibilitychange', function () {
+    tabVisible = document.visibilityState !== 'hidden';
+    sync();
+  });
+
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(band);
+  else window.addEventListener('resize', resize);
+
+  resize();
+
+  if (window.IntersectionObserver) {
+    new IntersectionObserver(function (e) { onScreen = e[0].isIntersecting; sync(); },
+      { threshold: 0.05 }).observe(band);
+  } else {
+    onScreen = true;
+  }
+
+  if (reduced) frame(performance.now());   // one still frame, no loop
+  else sync();
+})();
+</script>

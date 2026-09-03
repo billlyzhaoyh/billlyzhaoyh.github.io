@@ -42,3 +42,7 @@ defaults:
       type: "hacks"
     values:
       layout: "post"
+
+# Full-bleed animated flow-field band above the page header.
+# Set to false (or delete) to turn it off everywhere.
+hero_flow: true
